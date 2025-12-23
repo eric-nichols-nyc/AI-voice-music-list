@@ -7,4 +7,3 @@ export const createNeonAuthClient = () => {
 };
 
 export type NeonAuthClient = ReturnType<typeof createNeonAuthClient>;
-

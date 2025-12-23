@@ -1,5 +1,8 @@
 "use client";
 
-import { createNeonAuthClient } from "@repo/neon-auth";
+import {
+  createNeonAuthClient,
+  type NeonAuthClient,
+} from "@repo/neon-auth/client";
 
-export const authClient = createNeonAuthClient();
+export const authClient: NeonAuthClient = createNeonAuthClient();

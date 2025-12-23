@@ -1,20 +1,16 @@
-// Server actions
+// Server actions (server-only)
 export {
   signUpAction,
   signInAction,
   signOutAction,
 } from "./actions";
 
-// Types
+// Types (safe for both client and server)
 export type { SignUpState, SignInState } from "./types";
 
-// Client
-export { createNeonAuthClient } from "./client";
-export type { NeonAuthClient } from "./client";
-
-// Server
+// Server helpers (server-only)
 export { getSession } from "./server";
 
-// Keys
+// Keys (server-only)
 export { keys } from "./keys";
 

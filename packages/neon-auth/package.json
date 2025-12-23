@@ -4,6 +4,13 @@
   "private": true,
   "main": "./index.ts",
   "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./client": "./client.ts",
+    "./server": "./server.ts",
+    "./actions": "./actions.ts",
+    "./types": "./types.ts"
+  },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
