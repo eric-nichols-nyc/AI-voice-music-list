@@ -1,6 +1,6 @@
 import "./styles.css";
 import { fonts } from "@repo/design-system/lib/fonts";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "@repo/design-system/providers/theme";
 import type { ReactNode } from "react";
 
 type RootLayoutProperties = {
@@ -10,16 +10,12 @@ type RootLayoutProperties = {
 const RootLayout = ({ children }: RootLayoutProperties) => (
   <html className={fonts} lang="en" suppressHydrationWarning>
     <body>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        {children}
-      </ThemeProvider>
+      <ThemeProvider>{children}</ThemeProvider>
     </body>
   </html>
 );
 
 export default RootLayout;
+
+
+
