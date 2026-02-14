@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useEffect, useState } from "react";
 import { Button } from "@repo/design-system/components/ui/button";
 import { Input } from "@repo/design-system/components/ui/input";
 import { ScrollArea } from "@repo/design-system/components/ui/scroll-area";
@@ -11,20 +12,55 @@ import { cn } from "@repo/design-system/lib/utils";
 import { Send, User } from "lucide-react";
 import { AssistantIcon } from "./assistant-icon";
 
-const STATIC_MESSAGES = [
-  { id: "1", role: "user" as const, content: "What's the best way to get started with Next.js?" },
-  { id: "2", role: "assistant" as const, content: "I'd recommend starting with the official Next.js docs and the App Router. Create a new project with `npx create-next-app@latest` and explore the file-based routing." },
-  { id: "3", role: "user" as const, content: "Can you suggest a good place for lunch around here?" },
-  { id: "4", role: "assistant" as const, content: "There are a few solid options: the café on the corner has great sandwiches, and the Thai place two blocks down is popular for lunch specials." },
-  { id: "5", role: "user" as const, content: "How do I center a div in CSS?" },
-  { id: "6", role: "assistant" as const, content: "You can use flexbox: `display: flex; justify-content: center; align-items: center;` on the parent, or `margin: 0 auto` with a fixed width on the div." },
-  { id: "7", role: "user" as const, content: "What time does the meeting start tomorrow?" },
-  { id: "8", role: "assistant" as const, content: "The meeting is scheduled for 10:00 AM in Conference Room B. I can send a calendar invite if you'd like." },
-  { id: "9", role: "user" as const, content: "Thanks, that's really helpful!" },
-  { id: "10", role: "assistant" as const, content: "You're welcome! Let me know if you need anything else." },
+type Message = { id: string; role: "user" | "assistant"; content: string };
+
+const INITIAL_MESSAGES: Message[] = [
+  { id: "1", role: "user", content: "What's the best way to get started with Next.js?" },
+  { id: "2", role: "assistant", content: "I'd recommend starting with the official Next.js docs and the App Router. Create a new project with `npx create-next-app@latest` and explore the file-based routing." },
+  { id: "3", role: "user", content: "Can you suggest a good place for lunch around here?" },
+  { id: "4", role: "assistant", content: "There are a few solid options: the café on the corner has great sandwiches, and the Thai place two blocks down is popular for lunch specials." },
+];
+
+const DUMMY_RESPONSES = [
+  "Got it—I'm a demo assistant. Real responses will hook up here soon!",
+  "Thanks for your message. This is a placeholder reply.",
+  "Noted! I'm just a dummy for now, but I'll pass this along when the real assistant is connected.",
 ];
 
 const Chat = () => {
+  const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
+  const [input, setInput] = useState("");
+  const [isResponding, setIsResponding] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || isResponding) return;
+
+    const userMsg: Message = { id: `user-${Date.now()}`, role: "user", content: text };
+    setMessages((prev) => [...prev, userMsg]);
+    setInput("");
+    setIsResponding(true);
+
+    const dummy =
+      DUMMY_RESPONSES[Math.floor(Math.random() * DUMMY_RESPONSES.length)];
+    const assistantMsg: Message = {
+      id: `assistant-${Date.now()}`,
+      role: "assistant",
+      content: dummy,
+    };
+
+    setTimeout(() => {
+      setMessages((prev) => [...prev, assistantMsg]);
+      setIsResponding(false);
+    }, 600);
+  };
+
   return (
     <div className="flex h-full flex-col">
       <header className="sticky top-0 z-10 flex shrink-0 items-center gap-2 border-b border-white/10 bg-gray-900/80 px-4 py-3 backdrop-blur-sm">
@@ -39,7 +75,7 @@ const Chat = () => {
 
       <ScrollArea className="min-h-0 flex-1">
         <div className="flex flex-col gap-6 p-4">
-          {STATIC_MESSAGES.map((msg) => (
+          {messages.map((msg) => (
             <div
               key={msg.id}
               className={cn(
@@ -70,17 +106,25 @@ const Chat = () => {
               </div>
             </div>
           ))}
+          <div ref={bottomRef} />
         </div>
       </ScrollArea>
 
       <div className="sticky bottom-0 z-10 shrink-0 border-t border-white/10 bg-gray-900/80 p-3 backdrop-blur-sm">
-        <form className="flex gap-2">
+        <form onSubmit={handleSubmit} className="flex gap-2">
           <Input
             placeholder="Type a message..."
-            className="min-w-0 flex-1"
-            disabled
+            className="min-w-0 flex-1 bg-white/5 border-white/10 text-white placeholder:text-gray-500"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            disabled={isResponding}
           />
-          <Button type="submit" size="icon" aria-label="Send message" disabled>
+          <Button
+            type="submit"
+            size="icon"
+            aria-label="Send message"
+            disabled={!input.trim() || isResponding}
+          >
             <Send className="size-4" />
           </Button>
         </form>
