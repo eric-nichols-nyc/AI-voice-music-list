@@ -9,7 +9,7 @@ const STATIC_ORB_STATE = "sleeping" as const;
 const AnimationManager = () => {
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <div className="rounded-lg border border-border bg-card p-4">
+      <div className="rounded-lg bg-card p-4">
         <Hal
           width={STATIC_CANVAS_WIDTH}
           height={STATIC_CANVAS_HEIGHT}

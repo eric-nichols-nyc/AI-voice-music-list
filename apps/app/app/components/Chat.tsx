@@ -8,7 +8,8 @@ import {
   AvatarFallback,
 } from "@repo/design-system/components/ui/avatar";
 import { cn } from "@repo/design-system/lib/utils";
-import { Send } from "lucide-react";
+import { Send, User } from "lucide-react";
+import { AssistantIcon } from "./assistant-icon";
 
 const STATIC_MESSAGES = [
   { id: "1", role: "user" as const, content: "What's the best way to get started with Next.js?" },
@@ -25,14 +26,14 @@ const STATIC_MESSAGES = [
 
 const Chat = () => {
   return (
-    <div className="flex h-full flex-col">
-      <header className="sticky top-0 z-10 flex shrink-0 items-center gap-2 border-b border-border bg-background px-4 py-3">
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-medium">
-          AI
+    <div className="flex h-full flex-col bg-gradient-to-b from-gray-900 to-black">
+      <header className="sticky top-0 z-10 flex shrink-0 items-center gap-2 border-b border-white/10 bg-gray-900/80 px-4 py-3 backdrop-blur-sm">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center">
+          <AssistantIcon />
         </div>
         <div>
-          <h2 className="font-semibold text-sm">Chat</h2>
-          <p className="text-muted-foreground text-xs">Assistant</p>
+          <h2 className="font-semibold text-sm text-white">Chat</h2>
+          <p className="text-gray-400 text-xs">Assistant</p>
         </div>
       </header>
 
@@ -47,16 +48,15 @@ const Chat = () => {
               )}
             >
               <Avatar className="size-8 shrink-0">
-                <AvatarFallback
-                  className={cn(
-                    "text-xs",
-                    msg.role === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted"
-                  )}
-                >
-                  {msg.role === "user" ? "U" : "AI"}
-                </AvatarFallback>
+                {msg.role === "user" ? (
+                  <AvatarFallback className="flex items-center justify-center bg-primary text-primary-foreground p-0">
+                    <User className="size-4" />
+                  </AvatarFallback>
+                ) : (
+                  <AvatarFallback className="flex items-center justify-center bg-muted p-0">
+                    <AssistantIcon className="size-6" />
+                  </AvatarFallback>
+                )}
               </Avatar>
               <div
                 className={cn(
@@ -73,7 +73,7 @@ const Chat = () => {
         </div>
       </ScrollArea>
 
-      <div className="sticky bottom-0 z-10 shrink-0 border-t border-border bg-background p-3">
+      <div className="sticky bottom-0 z-10 shrink-0 border-t border-white/10 bg-gray-900/80 p-3 backdrop-blur-sm">
         <form className="flex gap-2">
           <Input
             placeholder="Type a message..."
