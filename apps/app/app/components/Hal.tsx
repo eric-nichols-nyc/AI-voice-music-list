@@ -162,6 +162,8 @@ enum Color {
   lavender = "#ba80f5cc",
   chryslerBlue = "#3a00d3cc",
   azure = "#149afbcc",
+  yellow = "#eab308cc",
+  yellowLight = "#fff",
   transparent = "transparent",
 }
 
@@ -169,7 +171,7 @@ const lines: LineConfig[] = [
   {
     segments: [
       { pct: 0.42, color: Color.transparent },
-      { pct: 0.61, color: Color.rose },
+      { pct: 0.61, color: Color.yellow },
     ],
     startAngle: 3.52,
     speedMultiplier: 1.21,
@@ -180,7 +182,7 @@ const lines: LineConfig[] = [
   {
     segments: [
       { pct: 0.28, color: Color.springGreen },
-      { pct: 0.62, color: Color.rose },
+      { pct: 0.62, color: Color.yellowLight },
     ],
     startAngle: 1.59,
     speedMultiplier: 0.64,
@@ -213,7 +215,7 @@ const lines: LineConfig[] = [
   },
   {
     segments: [
-      { pct: 0.02, color: Color.springGreen },
+      { pct: 0.02, color: Color.yellow },
       { pct: 0.8, color: Color.azure },
     ],
     startAngle: 6.19,
