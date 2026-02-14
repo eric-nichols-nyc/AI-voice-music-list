@@ -47,23 +47,23 @@ const Chat = () => {
                 msg.role === "user" && "flex-row-reverse"
               )}
             >
-              <Avatar className="size-8 shrink-0">
+              <Avatar className="size-8 shrink-0 ring-1 ring-white/10">
                 {msg.role === "user" ? (
-                  <AvatarFallback className="flex items-center justify-center bg-primary text-primary-foreground p-0">
+                  <AvatarFallback className="flex items-center justify-center bg-white/15 text-white p-0">
                     <User className="size-4" />
                   </AvatarFallback>
                 ) : (
-                  <AvatarFallback className="flex items-center justify-center bg-muted p-0">
+                  <AvatarFallback className="flex items-center justify-center bg-white/10 p-0">
                     <AssistantIcon className="size-6" />
                   </AvatarFallback>
                 )}
               </Avatar>
               <div
                 className={cn(
-                  "max-w-[85%] rounded-lg px-3 py-2 text-sm",
+                  "max-w-[85%] rounded-lg px-3 py-2 text-sm border border-white/10",
                   msg.role === "user"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted"
+                    ? "bg-white/15 text-white"
+                    : "bg-white/5 text-gray-200 border-white/5"
                 )}
               >
                 {msg.content}
