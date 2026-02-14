@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@repo/design-system/components/ui/button";
+import { useVoiceBot, VoiceBotStatus } from "../context/VoiceBotContextProvider";
 import Hal from "./Hal";
 import { Loader } from "./Loader";
 
@@ -9,7 +10,6 @@ const STATIC_CANVAS_WIDTH = 480;
 const STATIC_CANVAS_HEIGHT = 480;
 const STATIC_AGENT_VOLUME = 0;
 const STATIC_USER_VOLUME = 0;
-const STATIC_ORB_STATE = "sleeping" as const;
 
 /** Indices: transparent, shadow, dusk, steel, ash, mist, gloom, navy */
 const ORB_THEMES = {
@@ -48,7 +48,13 @@ const ORB_THEMES = {
 type ThemeKey = keyof typeof ORB_THEMES;
 
 const AnimationManager = () => {
-  const [theme, setTheme] = useState<ThemeKey>("neutral");
+  const [theme, setTheme] = useState<ThemeKey>("sad");
+  const { setStatus } = useVoiceBot();
+
+  const handleOrbClick = () => {
+    setTheme("neutral");
+    setStatus(VoiceBotStatus.LISTENING);
+  };
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-4">
@@ -56,7 +62,10 @@ const AnimationManager = () => {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => setTheme("sad")}
+          onClick={() => {
+            setTheme("sad");
+            setStatus(VoiceBotStatus.SLEEPING);
+          }}
           className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "sad" ? "ring-2 ring-white/50" : ""}`}
         >
           Off
@@ -64,19 +73,27 @@ const AnimationManager = () => {
         <Button
           variant="outline"
           size="sm"
-          onClick={() => setTheme("neutral")}
+             onClick={() => {
+            setTheme("neutral");
+            setStatus(VoiceBotStatus.LISTENING);
+          }}
           className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "neutral" ? "ring-2 ring-white/50" : ""}`}
         >
           On
         </Button>
       </div>
-      <div className="rounded-lg bg-transparent p-4">
+      <div
+        className="cursor-pointer rounded-lg bg-transparent p-4"
+        onClick={handleOrbClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === "Enter" && handleOrbClick()}
+      >
         <Hal
           width={STATIC_CANVAS_WIDTH}
           height={STATIC_CANVAS_HEIGHT}
           agentVolume={STATIC_AGENT_VOLUME}
           userVolume={STATIC_USER_VOLUME}
-          orbState={STATIC_ORB_STATE}
           colors={ORB_THEMES[theme]}
         />
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { type FC, type MutableRefObject, useRef, useEffect } from "react";
+import { useVoiceBot, VoiceBotStatus } from "../context/VoiceBotContextProvider";
 
 const PULSE_PERIOD_SECONDS = 3;
 const PULSE_SIZE_MULTIPLIER = 1.02;
@@ -17,15 +18,6 @@ const CHATTER_SIZE_MULTIPLIER = 1.15;
 const CHATTER_WINDOW_SIZE = 3;
 const FOCUS_SPEED_MULTIPLIER = 5;
 const FOCUS_SIZE_MULTIPLIER = 0.5;
-
-const VoiceBotStatus = {
-  NONE: "none",
-  LISTENING: "listening",
-  THINKING: "thinking",
-  SPEAKING: "speaking",
-  SLEEPING: "sleeping",
-} as const;
-type VoiceBotStatus = (typeof VoiceBotStatus)[keyof typeof VoiceBotStatus];
 
 /** Default palette: [transparent, shadow, dusk, steel, ash, mist, gloom, navy] */
 export const DEFAULT_ORB_COLORS: readonly string[] = [
@@ -46,7 +38,6 @@ interface Props {
   height: number;
   agentVolume?: number;
   userVolume?: number;
-  orbState?: VoiceBotStatus;
   /** Palette for the orb. Indices 0–7 map to transparent, shadow, dusk, steel, ash, mist, gloom, navy. Defaults to DEFAULT_ORB_COLORS. */
   colors?: readonly string[] | string[];
 }
@@ -337,16 +328,17 @@ const draw = (
   requestAnimationFrame((t) => draw(ctx, shape, now, t, colorsRef));
 };
 
+/** Target deflation for current status: 0 = full orb (awake), 1 = deflated (sleep). */
 const deflationDepth = (orbState: string): number => {
   switch (orbState) {
-    case "listening":
+    case VoiceBotStatus.LISTENING:
       return 0;
-    case "thinking":
+    case VoiceBotStatus.THINKING:
       return 0;
-    case "none":
-    case "sleeping":
+    case VoiceBotStatus.NONE:
+    case VoiceBotStatus.SLEEPING:
       return 1;
-    case "speaking":
+    case VoiceBotStatus.SPEAKING:
       return 0;
     default:
       return 0;
@@ -355,13 +347,13 @@ const deflationDepth = (orbState: string): number => {
 
 const focusIntensity = (orbState: string): number => {
   switch (orbState) {
-    case "listening":
+    case VoiceBotStatus.LISTENING:
       return 0;
-    case "thinking":
+    case VoiceBotStatus.THINKING:
       return 1;
-    case "sleeping":
+    case VoiceBotStatus.SLEEPING:
       return 0;
-    case "speaking":
+    case VoiceBotStatus.SPEAKING:
       return 0;
     default:
       return 0;
@@ -414,9 +406,9 @@ const Hal: FC<Props> = ({
   height,
   agentVolume = 0,
   userVolume = 0,
-  orbState: staticOrbState = "sleeping",
   colors: colorsProp,
 }) => {
+  const { status: orbState } = useVoiceBot();
   const canvas = useRef<HTMLCanvasElement>(null);
   const colorsRef = useRef<string[]>(resolveColors(colorsProp));
   colorsRef.current = resolveColors(colorsProp);
@@ -424,14 +416,15 @@ const Hal: FC<Props> = ({
   const shape = useRef<Shape>({
     generation: 0,
     time: 0,
-    deflation: deflationDepth(staticOrbState),
-    focus: focusIntensity(staticOrbState),
+    deflation: deflationDepth(orbState),
+    focus: focusIntensity(orbState),
     agentNoise: Array(LINE_COUNT + CHATTER_WINDOW_SIZE).fill(agentVolume),
     userNoise: Array(LINE_COUNT + CHATTER_WINDOW_SIZE).fill(
-      staticOrbState === "sleeping" ? 0 : userVolume,
+      orbState === VoiceBotStatus.SLEEPING ? 0 : userVolume,
     ),
   });
 
+  // Start the continuous draw loop (runs every frame; uses shape.current for deflation, focus, noise).
   useEffect(() => {
     if (!canvas.current) return;
     const context = canvas.current.getContext("2d");
@@ -440,10 +433,16 @@ const Hal: FC<Props> = ({
     requestAnimationFrame((t) => draw(context, shape, now, t, colorsRef));
   }, []);
 
+  // When voice bot status changes (e.g. SLEEPING → LISTENING = wake): run transition to animate deflation/focus.
+  // Pass initial timestamp so the first frame has a valid (now - last) delta and the animation advances immediately.
   useEffect(() => {
     shape.current.generation += 1;
-    requestAnimationFrame((t) => transition(shape.current.generation, staticOrbState, shape, t));
-  }, [staticOrbState]);
+    const generation = shape.current.generation;
+    const initialNow = performance.now();
+    requestAnimationFrame((ts) =>
+      transition(generation, orbState, shape, initialNow, ts),
+    );
+  }, [orbState]);
 
   useEffect(() => {
     shape.current.agentNoise.shift();
@@ -451,10 +450,10 @@ const Hal: FC<Props> = ({
   }, [agentVolume]);
 
   useEffect(() => {
-    if (staticOrbState === "sleeping") return;
+    if (orbState === VoiceBotStatus.SLEEPING) return;
     shape.current.userNoise.shift();
     shape.current.userNoise.push(userVolume);
-  }, [userVolume, staticOrbState]);
+  }, [userVolume, orbState]);
 
   return <canvas ref={canvas} width={width} height={height} />;
 };
