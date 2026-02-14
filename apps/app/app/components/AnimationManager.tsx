@@ -35,11 +35,11 @@ const ORB_THEMES = {
   neutral: [
     "transparent",
     "#1e3a8acc",
-    "#1d4ed8cc",
+    "#0d9488cc",
     "#2563ebcc",
-    "#3b82f6cc",
+    "#14b8a6cc",
     "#60a5facc",
-    "#93c5fdcc",
+    "#2dd4bfcc",
     "#bfdbfecc",
   ],
 } as const;
@@ -47,7 +47,7 @@ const ORB_THEMES = {
 type ThemeKey = keyof typeof ORB_THEMES;
 
 const AnimationManager = () => {
-  const [theme, setTheme] = useState<ThemeKey>("sad");
+  const [theme, setTheme] = useState<ThemeKey>("neutral");
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-4">
