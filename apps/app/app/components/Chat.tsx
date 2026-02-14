@@ -26,7 +26,7 @@ const STATIC_MESSAGES = [
 
 const Chat = () => {
   return (
-    <div className="flex h-full flex-col bg-gradient-to-b from-gray-900 to-black">
+    <div className="flex h-full flex-col">
       <header className="sticky top-0 z-10 flex shrink-0 items-center gap-2 border-b border-white/10 bg-gray-900/80 px-4 py-3 backdrop-blur-sm">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center">
           <AssistantIcon />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { GripVertical } from "lucide-react";
 import AnimationManager from "./AnimationManager";
 import { AppName } from "./AppName";
 import Chat from "./Chat";
@@ -8,7 +9,7 @@ import Chat from "./Chat";
 const MIN_LEFT_PERCENT = 20;
 const MAX_LEFT_PERCENT = 80;
 const DEFAULT_LEFT_PERCENT = 60;
-const RESIZER_WIDTH_PX = 8;
+const RESIZER_WIDTH_PX = 10;
 
 export default function Layout() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,7 +58,7 @@ export default function Layout() {
   return (
     <main
       ref={containerRef}
-      className="relative flex h-screen flex-col overflow-hidden bg-background md:flex-row"
+      className="relative flex h-screen flex-col overflow-hidden bg-gradient-to-b from-gray-900 to-black md:flex-row"
     >
       <div className="absolute left-4 top-4 z-10">
         <AppName />
@@ -82,15 +83,18 @@ export default function Layout() {
         role="separator"
         aria-orientation="vertical"
         aria-valuenow={leftPercent}
+        aria-label="Resize panels"
         tabIndex={0}
         onMouseDown={handleResizerMouseDown}
-        className="hidden shrink-0 cursor-col-resize border-border bg-border md:block"
+        className="hidden shrink-0 cursor-col-resize items-center justify-center border-border bg-border md:flex"
         style={{
           width: RESIZER_WIDTH_PX,
           minWidth: RESIZER_WIDTH_PX,
           ...(isDragging ? { userSelect: "none" } : {}),
         }}
-      />
+      >
+        <GripVertical className="size-3 text-white/50" aria-hidden />
+      </div>
       <section
         className="hidden min-h-0 min-w-0 flex-1 flex-col md:flex"
         style={isDesktop ? { flex: "1 1 0" } : undefined}

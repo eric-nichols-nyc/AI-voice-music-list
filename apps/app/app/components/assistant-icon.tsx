@@ -14,199 +14,199 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
     >
       <g filter="url(#filter0_f_2503_9007)">
         <ellipse
-          cx="23.9728"
-          cy="24.7822"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(136.968 23.9728 24.7822)"
+          cx="24.2"
+          cy="24.5"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(128 24.2 24.5)"
           stroke="url(#paint0_radial_2503_9007)"
-          strokeWidth="3.51645"
+          strokeWidth="3.2"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="23.9728"
-          cy="24.7822"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(136.968 23.9728 24.7822)"
+          cx="24.2"
+          cy="24.5"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(128 24.2 24.5)"
           stroke="url(#paint1_radial_2503_9007)"
-          strokeWidth="3.51645"
+          strokeWidth="3.2"
           strokeLinejoin="round"
         />
       </g>
       <g filter="url(#filter1_f_2503_9007)">
         <ellipse
-          cx="24.2767"
-          cy="23.9455"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(-34.7794 24.2767 23.9455)"
+          cx="24.3"
+          cy="24"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(-42 24.3 24)"
           stroke="url(#paint2_radial_2503_9007)"
-          strokeWidth="3.51645"
+          strokeWidth="3.2"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="24.2767"
-          cy="23.9455"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(-34.7794 24.2767 23.9455)"
+          cx="24.3"
+          cy="24"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(-42 24.3 24)"
           stroke="url(#paint3_radial_2503_9007)"
-          strokeWidth="3.51645"
+          strokeWidth="3.2"
           strokeLinejoin="round"
         />
       </g>
       <g filter="url(#filter2_f_2503_9007)">
-        <circle cx="26.2542" cy="25.1626" r="16.5041" stroke="#FBFBFF" strokeWidth="0.281316" />
+        <circle cx="26" cy="25" r="15.8" stroke="#F0FDFA" strokeWidth="0.28" />
       </g>
       <g filter="url(#filter3_f_2503_9007)">
-        <circle cx="26.2542" cy="25.1626" r="16.5041" stroke="#B8F8D2" strokeWidth="0.0703291" />
+        <circle cx="26" cy="25" r="15.8" stroke="#99F6E4" strokeWidth="0.07" />
       </g>
       <g filter="url(#filter4_f_2503_9007)">
-        <circle cx="26.2542" cy="25.1626" r="16.5041" stroke="#B8F8D2" strokeWidth="0.281316" />
+        <circle cx="26" cy="25" r="15.8" stroke="#99F6E4" strokeWidth="0.28" />
       </g>
       <g filter="url(#filter5_f_2503_9007)">
         <ellipse
-          cx="26.2542"
-          cy="25.1625"
-          rx="16.5041"
-          ry="16.5041"
-          transform="rotate(-180 26.2542 25.1625)"
-          stroke="#13EF93"
+          cx="26"
+          cy="25"
+          rx="15.8"
+          ry="15.8"
+          transform="rotate(-180 26 25)"
+          stroke="#14B8A6"
           strokeWidth="0.562633"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="26.2542"
-          cy="25.1625"
-          rx="16.5041"
-          ry="16.5041"
-          transform="rotate(-180 26.2542 25.1625)"
+          cx="26"
+          cy="25"
+          rx="15.8"
+          ry="15.8"
+          transform="rotate(-180 26 25)"
           stroke="url(#paint4_linear_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="26.2542"
-          cy="25.1625"
-          rx="16.5041"
-          ry="16.5041"
-          transform="rotate(-180 26.2542 25.1625)"
+          cx="26"
+          cy="25"
+          rx="15.8"
+          ry="15.8"
+          transform="rotate(-180 26 25)"
           stroke="url(#paint5_linear_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="26.2542"
-          cy="25.1625"
-          rx="16.5041"
-          ry="16.5041"
-          transform="rotate(-180 26.2542 25.1625)"
+          cx="26"
+          cy="25"
+          rx="15.8"
+          ry="15.8"
+          transform="rotate(-180 26 25)"
           stroke="url(#paint6_linear_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
       </g>
       <g filter="url(#filter6_f_2503_9007)">
         <ellipse
-          cx="24.8855"
-          cy="25.6945"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(136.968 24.8855 25.6945)"
+          cx="24.9"
+          cy="25.4"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(128 24.9 25.4)"
           stroke="url(#paint7_radial_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="24.8855"
-          cy="25.6945"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(136.968 24.8855 25.6945)"
+          cx="24.9"
+          cy="25.4"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(128 24.9 25.4)"
           stroke="url(#paint8_radial_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="24.8855"
-          cy="25.6945"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(136.968 24.8855 25.6945)"
+          cx="24.9"
+          cy="25.4"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(128 24.9 25.4)"
           stroke="url(#paint9_radial_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
       </g>
       <g filter="url(#filter7_f_2503_9007)">
         <ellipse
-          cx="24.8855"
-          cy="25.6945"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(136.968 24.8855 25.6945)"
+          cx="24.9"
+          cy="25.4"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(128 24.9 25.4)"
           stroke="url(#paint10_radial_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="24.8855"
-          cy="25.6945"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(136.968 24.8855 25.6945)"
+          cx="24.9"
+          cy="25.4"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(128 24.9 25.4)"
           stroke="url(#paint11_radial_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="24.8855"
-          cy="25.6945"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(136.968 24.8855 25.6945)"
+          cx="24.9"
+          cy="25.4"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(128 24.9 25.4)"
           stroke="url(#paint12_radial_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
       </g>
       <g filter="url(#filter8_f_2503_9007)">
         <circle
-          cx="24.2768"
-          cy="23.9462"
-          r="16.6562"
-          transform="rotate(91.6421 24.2768 23.9462)"
+          cx="24.3"
+          cy="24"
+          r="16.2"
+          transform="rotate(88 24.3 24)"
           stroke="url(#paint13_radial_2503_9007)"
-          strokeWidth="0.703291"
+          strokeWidth="0.7"
           strokeLinejoin="round"
         />
         <circle
-          cx="24.2768"
-          cy="23.9462"
-          r="16.6562"
-          transform="rotate(91.6421 24.2768 23.9462)"
+          cx="24.3"
+          cy="24"
+          r="16.2"
+          transform="rotate(88 24.3 24)"
           stroke="url(#paint14_radial_2503_9007)"
-          strokeWidth="0.703291"
+          strokeWidth="0.7"
           strokeLinejoin="round"
         />
         <circle
-          cx="24.2768"
-          cy="23.9462"
-          r="16.6562"
-          transform="rotate(91.6421 24.2768 23.9462)"
+          cx="24.3"
+          cy="24"
+          r="16.2"
+          transform="rotate(88 24.3 24)"
           stroke="url(#paint15_radial_2503_9007)"
-          strokeWidth="0.703291"
+          strokeWidth="0.7"
           strokeLinejoin="round"
         />
       </g>
       <g filter="url(#filter9_f_2503_9007)">
         <ellipse
-          cx="25.7348"
-          cy="25.0738"
-          rx="12.5775"
-          ry="12.5775"
-          transform="rotate(-125.576 25.7348 25.0738)"
+          cx="25.6"
+          cy="25"
+          rx="12.2"
+          ry="12.2"
+          transform="rotate(-118 25.6 25)"
           stroke="url(#paint16_radial_2503_9007)"
           strokeWidth="0.703291"
           strokeLinejoin="round"
@@ -214,85 +214,85 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
       </g>
       <g filter="url(#filter10_f_2503_9007)">
         <ellipse
-          cx="28.6881"
-          cy="25.6947"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(34.0585 28.6881 25.6947)"
+          cx="28.5"
+          cy="25.4"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(38 28.5 25.4)"
           stroke="url(#paint17_radial_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="28.6881"
-          cy="25.6947"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(34.0585 28.6881 25.6947)"
+          cx="28.5"
+          cy="25.4"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(38 28.5 25.4)"
           stroke="url(#paint18_radial_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="28.6881"
-          cy="25.6947"
-          rx="16.6562"
-          ry="16.6562"
-          transform="rotate(34.0585 28.6881 25.6947)"
+          cx="28.5"
+          cy="25.4"
+          rx="16.2"
+          ry="16.2"
+          transform="rotate(38 28.5 25.4)"
           stroke="url(#paint19_radial_2503_9007)"
-          strokeWidth="0.562633"
+          strokeWidth="0.56"
           strokeLinejoin="round"
         />
       </g>
       <g style={{ mixBlendMode: "color-dodge" }} filter="url(#filter11_f_2503_9007)">
         <ellipse
-          cx="26.1022"
-          cy="25.0858"
-          rx="16.352"
-          ry="16.352"
-          transform="rotate(63.267 26.1022 25.0858)"
+          cx="26"
+          cy="25"
+          rx="15.8"
+          ry="15.8"
+          transform="rotate(58 26 25)"
           stroke="url(#paint20_angular_2503_9007)"
-          strokeWidth="1.12527"
+          strokeWidth="1.1"
         />
       </g>
       <g filter="url(#filter12_f_2503_9007)">
         <ellipse
-          cx="25.7981"
-          cy="24.706"
-          rx="13.7811"
-          ry="13.7811"
-          transform="rotate(-34.7794 25.7981 24.706)"
+          cx="25.8"
+          cy="24.7"
+          rx="13.4"
+          ry="13.4"
+          transform="rotate(-42 25.8 24.7)"
           stroke="url(#paint21_radial_2503_9007)"
-          strokeWidth="3.51645"
+          strokeWidth="3.2"
           strokeLinejoin="round"
         />
         <ellipse
-          cx="25.7981"
-          cy="24.706"
-          rx="13.7811"
-          ry="13.7811"
-          transform="rotate(-34.7794 25.7981 24.706)"
+          cx="25.8"
+          cy="24.7"
+          rx="13.4"
+          ry="13.4"
+          transform="rotate(-42 25.8 24.7)"
           stroke="url(#paint22_radial_2503_9007)"
-          strokeWidth="3.51645"
+          strokeWidth="3.2"
           strokeLinejoin="round"
         />
       </g>
-      <g opacity="0.9">
+      <g opacity="0.88">
         <g style={{ mixBlendMode: "color-dodge" }} filter="url(#filter13_f_2503_9007)">
           <ellipse
-            cx="15.0505"
-            cy="22.6368"
-            rx="6.96258"
-            ry="12.3779"
+            cx="14.8"
+            cy="22.8"
+            rx="6.2"
+            ry="11.2"
             fill="url(#paint23_radial_2503_9007)"
           />
         </g>
         <g style={{ mixBlendMode: "color-dodge" }} filter="url(#filter14_f_2503_9007)">
           <ellipse
-            cx="15.0505"
-            cy="22.6368"
-            rx="6.96258"
-            ry="12.3779"
+            cx="14.8"
+            cy="22.8"
+            rx="6.2"
+            ry="11.2"
             fill="url(#paint24_radial_2503_9007)"
           />
         </g>
@@ -501,8 +501,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(22.9806 15.48) rotate(-85.2468) scale(8.04151 13.0048)"
         >
-          <stop stopColor="#13EF93" />
-          <stop offset="1" stopColor="#13EF93" stopOpacity="0" />
+          <stop stopColor="#14B8A6" />
+          <stop offset="1" stopColor="#14B8A6" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_2503_9007"
@@ -512,8 +512,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(22.8309 12.6869) rotate(-89.9929) scale(3.90133 6.30924)"
         >
-          <stop stopColor="#B8F8D2" />
-          <stop offset="1" stopColor="#B8F8D2" stopOpacity="0" />
+          <stop stopColor="#99F6E4" />
+          <stop offset="1" stopColor="#99F6E4" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint2_radial_2503_9007"
@@ -523,8 +523,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(23.2846 14.6432) rotate(-85.2468) scale(8.04151 13.0048)"
         >
-          <stop stopColor="#13EF93" />
-          <stop offset="1" stopColor="#13EF93" stopOpacity="0" />
+          <stop stopColor="#14B8A6" />
+          <stop offset="1" stopColor="#14B8A6" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint3_radial_2503_9007"
@@ -534,8 +534,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(23.1348 11.8502) rotate(-89.9929) scale(3.90133 6.30924)"
         >
-          <stop stopColor="#B8F8D2" />
-          <stop offset="1" stopColor="#B8F8D2" stopOpacity="0" />
+          <stop stopColor="#99F6E4" />
+          <stop offset="1" stopColor="#99F6E4" stopOpacity="0" />
         </radialGradient>
         <linearGradient
           id="paint4_linear_2503_9007"
@@ -545,8 +545,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           y2="17.1006"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0.0296257" stopColor="#4B3CFF" />
-          <stop offset="1" stopColor="#4B3CFF" stopOpacity="0" />
+          <stop offset="0.0296257" stopColor="#0D9488" />
+          <stop offset="1" stopColor="#0D9488" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint5_linear_2503_9007"
@@ -556,8 +556,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           y2="27.178"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#AE63F9" />
-          <stop offset="1" stopColor="#AE63F9" stopOpacity="0" />
+          <stop stopColor="#22D3EE" />
+          <stop offset="1" stopColor="#22D3EE" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint6_linear_2503_9007"
@@ -567,8 +567,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           y2="15.5795"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#DD0070" />
-          <stop offset="1" stopColor="#F185BE" stopOpacity="0" />
+          <stop stopColor="#EC4899" />
+          <stop offset="1" stopColor="#F472B6" stopOpacity="0" />
         </linearGradient>
         <radialGradient
           id="paint7_radial_2503_9007"
@@ -578,8 +578,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(19.4044 2.42105) rotate(83.8608) scale(16.635)"
         >
-          <stop offset="0.0296257" stopColor="#4B3CFF" />
-          <stop offset="1" stopColor="#4B3CFF" stopOpacity="0" />
+          <stop offset="0.0296257" stopColor="#0D9488" />
+          <stop offset="1" stopColor="#0D9488" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint8_radial_2503_9007"
@@ -589,8 +589,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(8.84652 26.38) rotate(-0.478187) scale(11.3782)"
         >
-          <stop stopColor="#AE63F9" />
-          <stop offset="1" stopColor="#AE63F9" stopOpacity="0" />
+          <stop stopColor="#22D3EE" />
+          <stop offset="1" stopColor="#22D3EE" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint9_radial_2503_9007"
@@ -600,8 +600,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(43.6212 25.9655) rotate(-1.16089) scale(11.4562)"
         >
-          <stop stopColor="#149AFB" />
-          <stop offset="1" stopColor="#149AFB" stopOpacity="0" />
+          <stop stopColor="#06B6D4" />
+          <stop offset="1" stopColor="#06B6D4" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint10_radial_2503_9007"
@@ -611,8 +611,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(17.0952 16.6527) rotate(-164.942) scale(23.5102 23.5102)"
         >
-          <stop offset="0.0296257" stopColor="#13EF93" />
-          <stop offset="1" stopColor="#13EF93" stopOpacity="0" />
+          <stop offset="0.0296257" stopColor="#14B8A6" />
+          <stop offset="1" stopColor="#14B8A6" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint11_radial_2503_9007"
@@ -622,8 +622,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(38.6684 16.5034) rotate(148.638) scale(11.4502 11.4502)"
         >
-          <stop stopColor="#AE63F9" />
-          <stop offset="1" stopColor="#AE63F9" stopOpacity="0" />
+          <stop stopColor="#22D3EE" />
+          <stop offset="1" stopColor="#22D3EE" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint12_radial_2503_9007"
@@ -633,8 +633,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(42.0045 30.595) rotate(23.4635) scale(10.3319)"
         >
-          <stop stopColor="#149AFB" />
-          <stop offset="1" stopColor="#149AFB" stopOpacity="0" />
+          <stop stopColor="#06B6D4" />
+          <stop offset="1" stopColor="#06B6D4" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint13_radial_2503_9007"
@@ -644,8 +644,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(16.4865 14.9044) rotate(-164.942) scale(23.5102)"
         >
-          <stop offset="0.0296257" stopColor="#13EF93" />
-          <stop offset="1" stopColor="#13EF93" stopOpacity="0" />
+          <stop offset="0.0296257" stopColor="#14B8A6" />
+          <stop offset="1" stopColor="#14B8A6" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint14_radial_2503_9007"
@@ -655,8 +655,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(38.0597 14.7552) rotate(148.638) scale(11.4502 11.4502)"
         >
-          <stop stopColor="#AE63F9" />
-          <stop offset="1" stopColor="#AE63F9" stopOpacity="0" />
+          <stop stopColor="#22D3EE" />
+          <stop offset="1" stopColor="#22D3EE" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint15_radial_2503_9007"
@@ -666,8 +666,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(41.3958 28.8467) rotate(23.4635) scale(10.3319 10.3319)"
         >
-          <stop stopColor="#149AFB" />
-          <stop offset="1" stopColor="#149AFB" stopOpacity="0" />
+          <stop stopColor="#06B6D4" />
+          <stop offset="1" stopColor="#06B6D4" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint16_radial_2503_9007"
@@ -677,8 +677,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(22.8375 32.2574) rotate(127.685) scale(6.41861 23.5905)"
         >
-          <stop stopColor="#149AFB" />
-          <stop offset="1" stopColor="#149AFB" stopOpacity="0" />
+          <stop stopColor="#06B6D4" />
+          <stop offset="1" stopColor="#06B6D4" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint17_radial_2503_9007"
@@ -688,8 +688,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(23.207 2.42125) rotate(83.8608) scale(16.635)"
         >
-          <stop offset="0.0296257" stopColor="#4B3CFF" />
-          <stop offset="1" stopColor="#4B3CFF" stopOpacity="0" />
+          <stop offset="0.0296257" stopColor="#0D9488" />
+          <stop offset="1" stopColor="#0D9488" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint18_radial_2503_9007"
@@ -699,8 +699,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(12.6492 26.3802) rotate(-0.478187) scale(11.3782)"
         >
-          <stop stopColor="#AE63F9" />
-          <stop offset="1" stopColor="#AE63F9" stopOpacity="0" />
+          <stop stopColor="#22D3EE" />
+          <stop offset="1" stopColor="#22D3EE" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint19_radial_2503_9007"
@@ -710,8 +710,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(47.4239 25.9657) rotate(-1.16089) scale(11.4562)"
         >
-          <stop stopColor="#149AFB" />
-          <stop offset="1" stopColor="#149AFB" stopOpacity="0" />
+          <stop stopColor="#06B6D4" />
+          <stop offset="1" stopColor="#06B6D4" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint20_angular_2503_9007"
@@ -721,10 +721,10 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(26.1022 26.9254) rotate(-175.842) scale(25.3714 25.3714)"
         >
-          <stop offset="0.163351" stopColor="#F185BE" />
-          <stop offset="0.378115" stopColor="#000D9E" />
-          <stop offset="0.632887" stopColor="#13EF93" />
-          <stop offset="0.878761" stopColor="#00CF56" />
+          <stop offset="0.163351" stopColor="#F472B6" />
+          <stop offset="0.378115" stopColor="#0F766E" />
+          <stop offset="0.632887" stopColor="#14B8A6" />
+          <stop offset="0.878761" stopColor="#10B981" />
         </radialGradient>
         <radialGradient
           id="paint21_radial_2503_9007"
@@ -734,8 +734,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(26.2115 24.9932) rotate(-94.3217) scale(12.1227 19.6048)"
         >
-          <stop stopColor="#149AFB" />
-          <stop offset="1" stopColor="#149AFB" stopOpacity="0" />
+          <stop stopColor="#06B6D4" />
+          <stop offset="1" stopColor="#06B6D4" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint22_radial_2503_9007"
@@ -745,8 +745,8 @@ export const AssistantIcon = ({ className }: AssistantIconProps) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(24.8534 14.6985) rotate(-89.9929) scale(3.2279 5.22016)"
         >
-          <stop stopColor="#EE028C" />
-          <stop offset="1" stopColor="#EE028C" stopOpacity="0" />
+          <stop stopColor="#F43F5E" />
+          <stop offset="1" stopColor="#F43F5E" stopOpacity="0" />
         </radialGradient>
         <radialGradient
           id="paint23_radial_2503_9007"
