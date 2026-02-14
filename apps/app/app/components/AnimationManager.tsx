@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@repo/design-system/components/ui/button";
 import Hal from "./Hal";
+import { Loader } from "./Loader";
 
 const STATIC_CANVAS_WIDTH = 480;
 const STATIC_CANVAS_HEIGHT = 480;
@@ -34,13 +35,13 @@ const ORB_THEMES = {
   ],
   neutral: [
     "transparent",
-    "#1e3a8acc",
-    "#0d9488cc",
     "#2563ebcc",
     "#14b8a6cc",
-    "#60a5facc",
+    "#3b82f6cc",
     "#2dd4bfcc",
-    "#bfdbfecc",
+    "#93c5fdcc",
+    "#5eead4cc",
+    "#dbeafecc",
   ],
 } as const;
 
@@ -51,6 +52,24 @@ const AnimationManager = () => {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+            <div className="flex gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setTheme("sad")}
+          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "sad" ? "ring-2 ring-white/50" : ""}`}
+        >
+          Off
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setTheme("neutral")}
+          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "neutral" ? "ring-2 ring-white/50" : ""}`}
+        >
+          On
+        </Button>
+      </div>
       <div className="rounded-lg bg-transparent p-4">
         <Hal
           width={STATIC_CANVAS_WIDTH}
@@ -61,32 +80,8 @@ const AnimationManager = () => {
           colors={ORB_THEMES[theme]}
         />
       </div>
-      <div className="flex gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setTheme("happy")}
-          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "happy" ? "ring-2 ring-white/50" : ""}`}
-        >
-          Happy
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setTheme("sad")}
-          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "sad" ? "ring-2 ring-white/50" : ""}`}
-        >
-          Sad
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setTheme("neutral")}
-          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "neutral" ? "ring-2 ring-white/50" : ""}`}
-        >
-          Neutral
-        </Button>
-      </div>
+      <Loader />
+
     </div>
   );
 };

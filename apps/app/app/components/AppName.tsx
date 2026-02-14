@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AssistantIcon } from "./assistant-icon";
 
 const NEUTRAL_GRADIENT =
-  "linear-gradient(to right, #1e3a8a, #0d9488, #2563eb)";
+  "linear-gradient(to right, #2563eb, #14b8a6, #3b82f6)";
 
 export const AppName = () => (
   <Link
