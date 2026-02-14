@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import { Button } from "@repo/design-system/components/ui/button";
 import Hal from "./Hal";
 
 const STATIC_CANVAS_WIDTH = 480;
@@ -6,9 +10,47 @@ const STATIC_AGENT_VOLUME = 0;
 const STATIC_USER_VOLUME = 0;
 const STATIC_ORB_STATE = "sleeping" as const;
 
+/** Indices: transparent, shadow, dusk, steel, ash, mist, gloom, navy */
+const ORB_THEMES = {
+  happy: [
+    "transparent",
+    "#22c55ecc",
+    "#4ade80cc",
+    "#facc15cc",
+    "#fb923ccc",
+    "#a5f3fccc",
+    "#c084fccc",
+    "#38bdf8cc",
+  ],
+  sad: [
+    "transparent",
+    "#0f172acc",
+    "#1e293bcc",
+    "#334155cc",
+    "#475569cc",
+    "#64748bcc",
+    "#3b0764cc",
+    "#172554cc",
+  ],
+  neutral: [
+    "transparent",
+    "#1e3a8acc",
+    "#1d4ed8cc",
+    "#2563ebcc",
+    "#3b82f6cc",
+    "#60a5facc",
+    "#93c5fdcc",
+    "#bfdbfecc",
+  ],
+} as const;
+
+type ThemeKey = keyof typeof ORB_THEMES;
+
 const AnimationManager = () => {
+  const [theme, setTheme] = useState<ThemeKey>("sad");
+
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-4">
       <div className="rounded-lg bg-transparent p-4">
         <Hal
           width={STATIC_CANVAS_WIDTH}
@@ -16,7 +58,34 @@ const AnimationManager = () => {
           agentVolume={STATIC_AGENT_VOLUME}
           userVolume={STATIC_USER_VOLUME}
           orbState={STATIC_ORB_STATE}
+          colors={ORB_THEMES[theme]}
         />
+      </div>
+      <div className="flex gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setTheme("happy")}
+          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "happy" ? "ring-2 ring-white/50" : ""}`}
+        >
+          Happy
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setTheme("sad")}
+          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "sad" ? "ring-2 ring-white/50" : ""}`}
+        >
+          Sad
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setTheme("neutral")}
+          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "neutral" ? "ring-2 ring-white/50" : ""}`}
+        >
+          Neutral
+        </Button>
       </div>
     </div>
   );

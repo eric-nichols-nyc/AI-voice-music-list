@@ -27,13 +27,28 @@ const VoiceBotStatus = {
 } as const;
 type VoiceBotStatus = (typeof VoiceBotStatus)[keyof typeof VoiceBotStatus];
 
+/** Default palette: [transparent, shadow, dusk, steel, ash, mist, gloom, navy] */
+export const DEFAULT_ORB_COLORS: readonly string[] = [
+  "transparent",
+  "#0f172acc",
+  "#1e293bcc",
+  "#334155cc",
+  "#475569cc",
+  "#64748bcc",
+  "#3b0764cc",
+  "#172554cc",
+];
+
+const COLOR_INDEX_COUNT = DEFAULT_ORB_COLORS.length;
+
 interface Props {
   width: number;
   height: number;
   agentVolume?: number;
   userVolume?: number;
-  /** Static orb state; no context dependency */
   orbState?: VoiceBotStatus;
+  /** Palette for the orb. Indices 0–7 map to transparent, shadow, dusk, steel, ash, mist, gloom, navy. Defaults to DEFAULT_ORB_COLORS. */
+  colors?: readonly string[] | string[];
 }
 
 interface Point {
@@ -41,15 +56,15 @@ interface Point {
   y: number;
 }
 
-interface ColorStop {
+interface ColorStopSpec {
   pct: number;
-  color: string;
+  colorIndex: number;
 }
 
 type NonEmptyArray<T> = [T, ...T[]];
 
 interface LineConfig {
-  segments: NonEmptyArray<ColorStop>;
+  segments: NonEmptyArray<ColorStopSpec>;
   startAngle: number;
   speedMultiplier: number;
   centerOffset: Point;
@@ -142,7 +157,8 @@ const makeGradient = (
   ctx: Context,
   offset: Point,
   angle: number,
-  parts: ColorStop[],
+  parts: ColorStopSpec[],
+  colors: string[],
 ): CanvasGradient => {
   const center = getCenter(ctx);
   const x1 = center.x * (1 - Math.cos(angle) + offset.x);
@@ -150,28 +166,30 @@ const makeGradient = (
   const x2 = center.x * (1 + Math.cos(angle) + offset.x);
   const y2 = center.y * (1 + Math.sin(angle) + offset.y);
   const g = ctx.createLinearGradient(x1, y1, x2, y2);
-  parts.forEach(({ pct, color }: ColorStop) => g.addColorStop(pct, color));
+  parts.forEach(({ pct, colorIndex }) => {
+    const color = colors[colorIndex] ?? colors[0] ?? "transparent";
+    g.addColorStop(pct, color);
+  });
   return g;
 };
 
-enum Color {
-  springGreen = "#13ef93cc",
-  springGreenLight = "#b8f8d2cc",
-  eucalyptus = "#027a48cc",
-  rose = "#f185becc",
-  lavender = "#ba80f5cc",
-  chryslerBlue = "#3a00d3cc",
-  azure = "#149afbcc",
-  yellow = "#eab308cc",
-  yellowLight = "#fff",
-  transparent = "transparent",
-}
+/** Indices into the colors array: 0=transparent, 1=shadow, 2=dusk, 3=steel, 4=ash, 5=mist, 6=gloom, 7=navy */
+const CI = {
+  transparent: 0,
+  shadow: 1,
+  dusk: 2,
+  steel: 3,
+  ash: 4,
+  mist: 5,
+  gloom: 6,
+  navy: 7,
+} as const;
 
 const lines: LineConfig[] = [
   {
     segments: [
-      { pct: 0.42, color: Color.transparent },
-      { pct: 0.61, color: Color.yellow },
+      { pct: 0.42, colorIndex: CI.transparent },
+      { pct: 0.61, colorIndex: CI.ash },
     ],
     startAngle: 3.52,
     speedMultiplier: 1.21,
@@ -181,8 +199,8 @@ const lines: LineConfig[] = [
   },
   {
     segments: [
-      { pct: 0.28, color: Color.springGreen },
-      { pct: 0.62, color: Color.yellowLight },
+      { pct: 0.28, colorIndex: CI.dusk },
+      { pct: 0.62, colorIndex: CI.mist },
     ],
     startAngle: 1.59,
     speedMultiplier: 0.64,
@@ -192,8 +210,8 @@ const lines: LineConfig[] = [
   },
   {
     segments: [
-      { pct: 0.31, color: Color.eucalyptus },
-      { pct: 0.66, color: Color.chryslerBlue },
+      { pct: 0.31, colorIndex: CI.shadow },
+      { pct: 0.66, colorIndex: CI.navy },
     ],
     startAngle: 2.86,
     speedMultiplier: 0.94,
@@ -203,9 +221,9 @@ const lines: LineConfig[] = [
   },
   {
     segments: [
-      { pct: 0.16, color: Color.chryslerBlue },
-      { pct: 0.62, color: Color.eucalyptus },
-      { pct: 0.75, color: Color.lavender },
+      { pct: 0.16, colorIndex: CI.navy },
+      { pct: 0.62, colorIndex: CI.shadow },
+      { pct: 0.75, colorIndex: CI.gloom },
     ],
     startAngle: 0.65,
     speedMultiplier: 1.23,
@@ -215,8 +233,8 @@ const lines: LineConfig[] = [
   },
   {
     segments: [
-      { pct: 0.02, color: Color.yellow },
-      { pct: 0.8, color: Color.azure },
+      { pct: 0.02, colorIndex: CI.ash },
+      { pct: 0.8, colorIndex: CI.steel },
     ],
     startAngle: 6.19,
     speedMultiplier: 1.18,
@@ -226,9 +244,9 @@ const lines: LineConfig[] = [
   },
   {
     segments: [
-      { pct: 0.2, color: Color.transparent },
-      { pct: 0.47, color: Color.transparent },
-      { pct: 0.81, color: Color.springGreenLight },
+      { pct: 0.2, colorIndex: CI.transparent },
+      { pct: 0.47, colorIndex: CI.transparent },
+      { pct: 0.81, colorIndex: CI.mist },
     ],
     startAngle: 0.49,
     speedMultiplier: 0.51,
@@ -257,7 +275,14 @@ const speechSimulation = (shape: ShapeRef, start: number): number =>
 const listeningSimulation = (shape: ShapeRef, start: number): number =>
   lerp(1, 1 / CHATTER_SIZE_MULTIPLIER, rollingAverage(shape.current.userNoise, start));
 
-const draw = (ctx: Context, shape: ShapeRef, last: number, now: number): void => {
+const draw = (
+  ctx: Context,
+  shape: ShapeRef,
+  last: number,
+  now: number,
+  colorsRef: MutableRefObject<string[]>,
+): void => {
+  const colors = colorsRef.current;
   shape.current.time +=
     (now - last) *
     lerp(1, FOCUS_SPEED_MULTIPLIER, shape.current.focus) *
@@ -270,7 +295,8 @@ const draw = (ctx: Context, shape: ShapeRef, last: number, now: number): void =>
 
   lines.forEach((line, i) => {
     ctx.lineWidth = line.width;
-    ctx.shadowColor = line.segments[0].color;
+    const firstColor = colors[line.segments[0].colorIndex] ?? colors[0] ?? "transparent";
+    ctx.shadowColor = firstColor;
     ctx.shadowBlur = line.width * 1.1;
     const radius =
       maxRadius *
@@ -285,6 +311,7 @@ const draw = (ctx: Context, shape: ShapeRef, last: number, now: number): void =>
         ((shape.current.time * pi(1)) / 1000 / AVERAGE_ROTATION_PERIOD_SECONDS) *
           line.speedMultiplier,
       line.segments,
+      colors,
     );
     crescent(
       ctx,
@@ -307,7 +334,7 @@ const draw = (ctx: Context, shape: ShapeRef, last: number, now: number): void =>
     );
   });
 
-  requestAnimationFrame((t) => draw(ctx, shape, now, t));
+  requestAnimationFrame((t) => draw(ctx, shape, now, t, colorsRef));
 };
 
 const deflationDepth = (orbState: string): number => {
@@ -373,14 +400,27 @@ const transition = (
   }
 };
 
+const resolveColors = (colorsProp: Props["colors"]): string[] => {
+  const base = [...DEFAULT_ORB_COLORS];
+  if (!colorsProp?.length) return base;
+  for (let i = 0; i < COLOR_INDEX_COUNT; i++) {
+    if (colorsProp[i] != null) base[i] = colorsProp[i];
+  }
+  return base;
+};
+
 const Hal: FC<Props> = ({
   width,
   height,
   agentVolume = 0,
   userVolume = 0,
   orbState: staticOrbState = "sleeping",
+  colors: colorsProp,
 }) => {
   const canvas = useRef<HTMLCanvasElement>(null);
+  const colorsRef = useRef<string[]>(resolveColors(colorsProp));
+  colorsRef.current = resolveColors(colorsProp);
+
   const shape = useRef<Shape>({
     generation: 0,
     time: 0,
@@ -397,7 +437,7 @@ const Hal: FC<Props> = ({
     const context = canvas.current.getContext("2d");
     if (!context) return;
     const now = performance.now();
-    requestAnimationFrame((t) => draw(context, shape, now, t));
+    requestAnimationFrame((t) => draw(context, shape, now, t, colorsRef));
   }, []);
 
   useEffect(() => {
