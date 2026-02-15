@@ -1,7 +1,10 @@
 "use client";
 
-import { type FC, type MutableRefObject, useRef, useEffect } from "react";
-import { useVoiceBot, VoiceBotStatus } from "../context/VoiceBotContextProvider";
+import { type FC, type MutableRefObject, useEffect, useRef } from "react";
+import {
+  useVoiceBot,
+  VoiceBotStatus,
+} from "../context/VoiceBotContextProvider";
 
 const PULSE_PERIOD_SECONDS = 3;
 const PULSE_SIZE_MULTIPLIER = 1.02;
@@ -10,12 +13,12 @@ const ROCKING_SWING_FRACTION = 18;
 const ROCKING_PERIOD_SECONDS = 6;
 const SLEEP_SPEED_MULTIPLIER = 0.5;
 const DEFLATE_TRANSITION_TIME_MS = 1000;
-const DEFLATE_PULL = 1.3;
+const DEFLATE_PULL = 1.2;
 const INFLATE_TRANSITION_TIME_MS = 300;
 const FOCUS_TRANSITION_TIME_MS = 700;
 const RELAX_TRANSITION_TIME_MS = 1000;
 const CHATTER_SIZE_MULTIPLIER = 1.15;
-const CHATTER_WINDOW_SIZE = 3;
+const CHATTER_WINDOW_SIZE = 30;
 const FOCUS_SPEED_MULTIPLIER = 5;
 const FOCUS_SIZE_MULTIPLIER = 0.5;
 
@@ -82,7 +85,11 @@ type Context = CanvasRenderingContext2D;
 
 const pi = (n: number): number => Math.PI * n;
 
-const coordsFrom = ({ x, y }: Point, distance: number, angle: number): Point => ({
+const coordsFrom = (
+  { x, y }: Point,
+  distance: number,
+  angle: number
+): Point => ({
   x: x + distance * Math.cos(angle),
   y: y + distance * Math.sin(angle),
 });
@@ -91,10 +98,11 @@ const bezier = (ctx: Context, cp1: Point, cp2: Point, end: Point): void => {
   ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, end.x, end.y);
 };
 
-const lerp = (start: number, stop: number, amt: number): number => amt * (stop - start) + start;
+const lerp = (start: number, stop: number, amt: number): number =>
+  amt * (stop - start) + start;
 
 const easeInOutQuad = (x: number): number =>
-  x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+  x < 0.5 ? 2 * x * x : 1 - (-2 * x + 2) ** 2 / 2;
 
 const getCenter = (ctx: Context): Point => {
   const { width, height } = ctx.canvas.getBoundingClientRect();
@@ -106,7 +114,7 @@ const crescent = (
   offset: Point,
   radius: number,
   deflation: Deflation,
-  strokeStyle: CanvasGradient,
+  strokeStyle: CanvasGradient
 ): void => {
   const bezierDistance = radius * (4 / 3) * Math.tan(pi(1 / 8));
   const trueCenter = getCenter(ctx);
@@ -126,7 +134,7 @@ const crescent = (
   const mid = coordsFrom(
     center,
     radius - midpointPull,
-    lerp(deflation.angle, pi(3) - deflation.angle, deflation.depth),
+    lerp(deflation.angle, pi(3) - deflation.angle, deflation.depth)
   );
   const end = coordsFrom(center, radius, arcStart);
 
@@ -149,7 +157,7 @@ const makeGradient = (
   offset: Point,
   angle: number,
   parts: ColorStopSpec[],
-  colors: string[],
+  colors: string[]
 ): CanvasGradient => {
   const center = getCenter(ctx);
   const x1 = center.x * (1 - Math.cos(angle) + offset.x);
@@ -261,17 +269,25 @@ const rollingAverage = (noise: number[], start: number): number => {
 };
 
 const speechSimulation = (shape: ShapeRef, start: number): number =>
-  lerp(1, CHATTER_SIZE_MULTIPLIER, rollingAverage(shape.current.agentNoise, start));
+  lerp(
+    1,
+    CHATTER_SIZE_MULTIPLIER,
+    rollingAverage(shape.current.agentNoise, start)
+  );
 
 const listeningSimulation = (shape: ShapeRef, start: number): number =>
-  lerp(1, 1 / CHATTER_SIZE_MULTIPLIER, rollingAverage(shape.current.userNoise, start));
+  lerp(
+    1,
+    1 / CHATTER_SIZE_MULTIPLIER,
+    rollingAverage(shape.current.userNoise, start)
+  );
 
 const draw = (
   ctx: Context,
   shape: ShapeRef,
   last: number,
   now: number,
-  colorsRef: MutableRefObject<string[]>,
+  colorsRef: MutableRefObject<string[]>
 ): void => {
   const colors = colorsRef.current;
   shape.current.time +=
@@ -286,7 +302,8 @@ const draw = (
 
   lines.forEach((line, i) => {
     ctx.lineWidth = line.width;
-    const firstColor = colors[line.segments[0].colorIndex] ?? colors[0] ?? "transparent";
+    const firstColor =
+      colors[line.segments[0].colorIndex] ?? colors[0] ?? "transparent";
     ctx.shadowColor = firstColor;
     ctx.shadowBlur = line.width * 1.1;
     const radius =
@@ -299,10 +316,12 @@ const draw = (
       ctx,
       line.centerOffset,
       line.startAngle +
-        ((shape.current.time * pi(1)) / 1000 / AVERAGE_ROTATION_PERIOD_SECONDS) *
+        ((shape.current.time * pi(1)) /
+          1000 /
+          AVERAGE_ROTATION_PERIOD_SECONDS) *
           line.speedMultiplier,
       line.segments,
-      colors,
+      colors
     );
     crescent(
       ctx,
@@ -317,11 +336,11 @@ const draw = (
             Math.sin(
               (shape.current.time * pi(1)) /
                 (ROCKING_PERIOD_SECONDS * SLEEP_SPEED_MULTIPLIER) /
-                1000,
-            ) / ROCKING_SWING_FRACTION,
+                1000
+            ) / ROCKING_SWING_FRACTION
           ),
       },
-      gradient,
+      gradient
     );
   });
 
@@ -365,7 +384,7 @@ const transition = (
   orbState: string,
   shape: ShapeRef,
   last: number,
-  now: number = last,
+  now: number = last
 ) => {
   if (shape.current.generation > generation) return;
 
@@ -388,7 +407,9 @@ const transition = (
   }
 
   if (shape.current.deflation !== depth || shape.current.focus !== focus) {
-    requestAnimationFrame((ts) => transition(generation, orbState, shape, now, ts));
+    requestAnimationFrame((ts) =>
+      transition(generation, orbState, shape, now, ts)
+    );
   }
 };
 
@@ -420,7 +441,7 @@ const Hal: FC<Props> = ({
     focus: focusIntensity(orbState),
     agentNoise: Array(LINE_COUNT + CHATTER_WINDOW_SIZE).fill(agentVolume),
     userNoise: Array(LINE_COUNT + CHATTER_WINDOW_SIZE).fill(
-      orbState === VoiceBotStatus.SLEEPING ? 0 : userVolume,
+      orbState === VoiceBotStatus.SLEEPING ? 0 : userVolume
     ),
   });
 
@@ -440,7 +461,7 @@ const Hal: FC<Props> = ({
     const generation = shape.current.generation;
     const initialNow = performance.now();
     requestAnimationFrame((ts) =>
-      transition(generation, orbState, shape, initialNow, ts),
+      transition(generation, orbState, shape, initialNow, ts)
     );
   }, [orbState]);
 
@@ -455,7 +476,7 @@ const Hal: FC<Props> = ({
     shape.current.userNoise.push(userVolume);
   }, [userVolume, orbState]);
 
-  return <canvas ref={canvas} width={width} height={height} />;
+  return <canvas height={height} ref={canvas} width={width} />;
 };
 
 export default Hal;

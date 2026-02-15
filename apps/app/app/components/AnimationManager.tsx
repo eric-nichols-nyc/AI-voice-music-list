@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@repo/design-system/components/ui/button";
-import { useVoiceBot, VoiceBotStatus } from "../context/VoiceBotContextProvider";
+import { useTheme } from "../context/ThemeContext";
+import {
+  useVoiceBot,
+  VoiceBotStatus,
+} from "../context/VoiceBotContextProvider";
 import Hal from "./Hal";
 import { Loader } from "./Loader";
 
@@ -45,10 +48,8 @@ const ORB_THEMES = {
   ],
 } as const;
 
-type ThemeKey = keyof typeof ORB_THEMES;
-
 const AnimationManager = () => {
-  const [theme, setTheme] = useState<ThemeKey>("sad");
+  const { theme, setTheme } = useTheme();
   const { setStatus } = useVoiceBot();
 
   const handleOrbClick = () => {
@@ -58,26 +59,24 @@ const AnimationManager = () => {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-4">
-            <div className="flex gap-2">
+      <div className="flex gap-2">
         <Button
-          variant="outline"
-          size="sm"
+          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "sad" ? "ring-2 ring-white/50" : ""}`}
           onClick={() => {
-            setTheme("sad");
             setStatus(VoiceBotStatus.SLEEPING);
           }}
-          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "sad" ? "ring-2 ring-white/50" : ""}`}
+          size="sm"
+          variant="outline"
         >
           Off
         </Button>
         <Button
-          variant="outline"
-          size="sm"
-             onClick={() => {
-            setTheme("neutral");
+          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "neutral" ? "ring-2 ring-white/50" : ""}`}
+          onClick={() => {
             setStatus(VoiceBotStatus.LISTENING);
           }}
-          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "neutral" ? "ring-2 ring-white/50" : ""}`}
+          size="sm"
+          variant="outline"
         >
           On
         </Button>
@@ -85,20 +84,19 @@ const AnimationManager = () => {
       <div
         className="cursor-pointer rounded-lg bg-transparent p-4"
         onClick={handleOrbClick}
+        onKeyDown={(e) => e.key === "Enter" && handleOrbClick()}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => e.key === "Enter" && handleOrbClick()}
       >
         <Hal
-          width={STATIC_CANVAS_WIDTH}
-          height={STATIC_CANVAS_HEIGHT}
           agentVolume={STATIC_AGENT_VOLUME}
-          userVolume={STATIC_USER_VOLUME}
           colors={ORB_THEMES[theme]}
+          height={STATIC_CANVAS_HEIGHT}
+          userVolume={STATIC_USER_VOLUME}
+          width={STATIC_CANVAS_WIDTH}
         />
       </div>
       <Loader />
-
     </div>
   );
 };

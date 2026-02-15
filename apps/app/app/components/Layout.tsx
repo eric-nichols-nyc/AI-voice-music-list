@@ -5,11 +5,17 @@ import { GripVertical } from "lucide-react";
 import AnimationManager from "./AnimationManager";
 import { AppName } from "./AppName";
 import Chat from "./Chat";
+import { DynamicBackground } from "./DynamicBackground";
 
 const MIN_LEFT_PERCENT = 20;
 const MAX_LEFT_PERCENT = 80;
 const DEFAULT_LEFT_PERCENT = 60;
 const RESIZER_WIDTH_PX = 10;
+
+/** Chat panel always uses sad theme gradient (unchanged by global theme). */
+const CHAT_BG_STYLE = {
+  background: "linear-gradient(to bottom, #0f172a, #000000)",
+};
 
 export default function Layout() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -58,17 +64,22 @@ export default function Layout() {
   return (
     <main
       ref={containerRef}
-      className="relative flex h-screen flex-col overflow-hidden bg-gradient-to-b from-gray-900 to-black md:flex-row"
+      className="relative flex h-screen flex-col overflow-hidden md:flex-row"
     >
-      <div className="absolute left-4 top-4 z-10">
-        <AppName />
-      </div>
+      <DynamicBackground />
+      <div className="relative z-10 flex flex-1 flex-col md:flex-row md:min-h-0 md:min-w-0">
+        <div className="absolute left-4 top-4 z-10">
+          <AppName />
+        </div>
 
-      {/* Mobile: stacked */}
-      <section className="flex h-[200px] min-w-0 shrink-0 flex-col border-b border-border md:hidden">
+        {/* Mobile: stacked */}
+        <section className="flex h-[200px] min-w-0 shrink-0 flex-col border-b border-border md:hidden">
         <AnimationManager />
       </section>
-      <section className="flex min-h-0 min-w-0 flex-1 flex-col md:hidden">
+      <section
+        className="flex min-h-0 min-w-0 flex-1 flex-col md:hidden"
+        style={CHAT_BG_STYLE}
+      >
         <Chat />
       </section>
 
@@ -95,12 +106,16 @@ export default function Layout() {
       >
         <GripVertical className="size-3 text-white/50" aria-hidden />
       </div>
-      <section
-        className="hidden min-h-0 min-w-0 flex-1 flex-col md:flex"
-        style={isDesktop ? { flex: "1 1 0" } : undefined}
-      >
-        <Chat />
-      </section>
+        <section
+          className="hidden min-h-0 min-w-0 flex-1 flex-col md:flex"
+          style={{
+            ...(isDesktop ? { flex: "1 1 0" } : {}),
+            ...CHAT_BG_STYLE,
+          }}
+        >
+          <Chat />
+        </section>
+      </div>
     </main>
   );
 }
