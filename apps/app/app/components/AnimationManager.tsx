@@ -82,7 +82,7 @@ const AnimationManager = () => {
         </Button>
       </div>
       <div
-        className="cursor-pointer rounded-lg bg-transparent p-4"
+        className="flex min-h-0 min-w-0 flex-1 cursor-pointer items-center justify-center p-4"
         onClick={handleOrbClick}
         onKeyDown={(e) => e.key === "Enter" && handleOrbClick()}
         role="button"
@@ -90,6 +90,7 @@ const AnimationManager = () => {
       >
         <Hal
           agentVolume={STATIC_AGENT_VOLUME}
+          canvasClassName="max-h-full max-w-full"
           colors={ORB_THEMES[theme]}
           height={STATIC_CANVAS_HEIGHT}
           userVolume={STATIC_USER_VOLUME}

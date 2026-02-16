@@ -72,8 +72,11 @@ export default function Layout() {
           <AppName />
         </div>
 
-        {/* Mobile: stacked */}
-        <section className="flex h-[200px] min-w-0 shrink-0 flex-col border-b border-border md:hidden">
+        {/* Mobile: stacked — taller section so Hal orb has more room */}
+        <section
+          className="flex min-w-0 shrink-0 flex-col border-b border-border md:hidden"
+          style={{ height: "min(320px, 42vh)" }}
+        >
         <AnimationManager />
       </section>
       <section

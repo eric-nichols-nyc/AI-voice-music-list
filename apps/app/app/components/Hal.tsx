@@ -43,6 +43,8 @@ interface Props {
   userVolume?: number;
   /** Palette for the orb. Indices 0–7 map to transparent, shadow, dusk, steel, ash, mist, gloom, navy. Defaults to DEFAULT_ORB_COLORS. */
   colors?: readonly string[] | string[];
+  /** Optional class for the canvas element (e.g. max-w-full max-h-full for responsive scaling). */
+  canvasClassName?: string;
 }
 
 interface Point {
@@ -105,7 +107,7 @@ const easeInOutQuad = (x: number): number =>
   x < 0.5 ? 2 * x * x : 1 - (-2 * x + 2) ** 2 / 2;
 
 const getCenter = (ctx: Context): Point => {
-  const { width, height } = ctx.canvas.getBoundingClientRect();
+  const { width, height } = ctx.canvas;
   return { x: width / 2, y: height / 2 };
 };
 
@@ -428,6 +430,7 @@ const Hal: FC<Props> = ({
   agentVolume = 0,
   userVolume = 0,
   colors: colorsProp,
+  canvasClassName,
 }) => {
   const { status: orbState } = useVoiceBot();
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -476,7 +479,14 @@ const Hal: FC<Props> = ({
     shape.current.userNoise.push(userVolume);
   }, [userVolume, orbState]);
 
-  return <canvas height={height} ref={canvas} width={width} />;
+  return (
+    <canvas
+      ref={canvas}
+      width={width}
+      height={height}
+      className={canvasClassName}
+    />
+  );
 };
 
 export default Hal;
