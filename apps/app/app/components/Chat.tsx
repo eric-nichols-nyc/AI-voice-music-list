@@ -195,16 +195,6 @@ const Chat = () => {
 
   return (
     <div className="flex h-full flex-col">
-      <header className="sticky top-0 z-10 flex shrink-0 items-center gap-2 border-white/10 border-b bg-gray-900/80 px-4 py-3 backdrop-blur-sm">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center">
-          <AssistantIcon />
-        </div>
-        <div>
-          <h2 className="font-semibold text-sm text-white">Chat</h2>
-          <p className="text-gray-400 text-xs">Assistant</p>
-        </div>
-      </header>
-
       <ScrollArea className="min-h-0 flex-1">
         <div className="flex flex-col gap-6 p-4">
           {messages.map((msg) => (
