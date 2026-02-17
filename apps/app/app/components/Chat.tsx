@@ -9,11 +9,12 @@ import { Input } from "@repo/design-system/components/ui/input";
 import { ScrollArea } from "@repo/design-system/components/ui/scroll-area";
 import { cn } from "@repo/design-system/lib/utils";
 import { Send, User } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { type NormalizedAnswers, normalizeAll } from "@/lib/normalize";
+import type { PlaylistResult } from "@/types/playlist-types";
 import { AssistantIcon } from "./assistant-icon";
 
-type Step = "INTRO" | "MOOD" | "ANXIETY" | "ENERGY" | "RESULTS";
+type Step = "INTRO" | "MOOD" | "ANXIETY" | "ENERGY" | "GENERATING" | "RESULTS";
 
 type AnswersRaw = {
   mood?: string;
@@ -23,7 +24,7 @@ type AnswersRaw = {
 
 type Message = { id: string; role: "user" | "assistant"; content: string };
 
-const PROMPTS: Record<Exclude<Step, "RESULTS">, string> = {
+const PROMPTS: Record<Exclude<Step, "RESULTS" | "GENERATING">, string> = {
   INTRO: "Hi — I’ll recommend a short music list. Ready to begin? Type “yes”.",
   MOOD: "What’s your mood right now? (e.g., happy, low, stressed)",
   ANXIETY: "Anxiety level: low / medium / high, or 1–10.",
@@ -43,7 +44,7 @@ function getNextStep(step: Step): Step {
     case "ANXIETY":
       return "ENERGY";
     case "ENERGY":
-      return "RESULTS";
+      return "GENERATING";
     default:
       return "RESULTS";
   }
@@ -70,11 +71,6 @@ function getNextPlaceholder(step: Step) {
       return "";
   }
 }
-function isYes(text: string) {
-  const t = text.trim().toLowerCase();
-  return ["yes", "y", "ok", "okay", "sure", "ready"].includes(t);
-}
-
 const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([
     { id: uid(), role: "assistant", content: PROMPTS.INTRO },
@@ -84,56 +80,24 @@ const Chat = () => {
   const [answersRaw, setAnswersRaw] = useState<AnswersRaw>({});
   const bottomRef = useRef<HTMLDivElement>(null);
   const [normalized, setNormalized] = useState<NormalizedAnswers | null>(null);
-
-  console.log("normalized = ", normalized);
+  const [playlist, setPlaylist] = useState<PlaylistResult | null>(null);
 
   useEffect(() => {
     if (messages) {
       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-    console.log(answersRaw);
-  }, [messages, answersRaw]);
+  }, [messages]);
 
-  // 1. wake up hal and load intro message
-  //const handleStart = () => {};
-  const canSubmit = currentStep !== "RESULTS";
+  const canSubmit = currentStep !== "RESULTS" && currentStep !== "GENERATING";
   const hasInput = input.trim().length > 0;
   const isSendDisabled = !(hasInput && canSubmit);
-
-  const fakePlaylist = useMemo(() => {
-    if (currentStep !== "RESULTS") {
-      return null;
-    }
-    // v1 placeholder — later replace with LLM output JSON
-    return {
-      title: "Focus Lift (Demo)",
-      subtitle: "A short list based on your answers",
-      tracks: [
-        {
-          title: "Dog Days Are Over",
-          artist: "Florence + The Machine",
-          reason: "Upbeat, bright release.",
-        },
-        {
-          title: "Put Your Records On",
-          artist: "Corinne Bailey Rae",
-          reason: "Warm and steady.",
-        },
-        {
-          title: "Good as Hell",
-          artist: "Lizzo",
-          reason: "Confident, energizing.",
-        },
-      ],
-    };
-  }, [currentStep]);
 
   function appendMsg(msg: Message) {
     setMessages((prev) => [...prev, msg]);
   }
 
   function appendAssistantForStep(next: Step) {
-    if (next === "RESULTS") {
+    if (next === "RESULTS" || next === "GENERATING") {
       return;
     }
     appendMsg({ id: uid(), role: "assistant", content: PROMPTS[next] });
@@ -175,35 +139,53 @@ const Chat = () => {
 
     if (currentStep === "ENERGY") {
       const nextAnswers = { ...answersRaw, energy: text };
-
       setAnswersRaw(nextAnswers);
 
-      // normalize now that we have all 3
+      let n: NormalizedAnswers;
       try {
-        const n = normalizeAll(nextAnswers);
+        n = normalizeAll(nextAnswers);
         setNormalized(n);
-      } catch (e) {
-        // keep it simple: you can set an error state if you want
-        console.error(e);
+      } catch (err) {
+        console.error(err);
+        return;
       }
 
-      const next = getNextStep(currentStep);
-      setCurrentStep(next);
-
-      // In v1, immediately show results.
+      setCurrentStep("GENERATING");
       appendMsg({
         id: uid(),
         role: "assistant",
-        content: "Thanks. Generating your tracklist…",
+        content: "Generating…",
       });
 
-      setTimeout(() => {
-        appendMsg({
-          id: uid(),
-          role: "assistant",
-          content: "Done. Your tracklist is ready below.",
+      fetch("/api/recommend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ normalized: n }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Recommend request failed");
+          }
+          return res.json();
+        })
+        .then((result: PlaylistResult) => {
+          setPlaylist(result);
+          setCurrentStep("RESULTS");
+          appendMsg({
+            id: uid(),
+            role: "assistant",
+            content: "Done.",
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          appendMsg({
+            id: uid(),
+            role: "assistant",
+            content: "Something went wrong. Please try again.",
+          });
+          setCurrentStep("ENERGY");
         });
-      }, 4000);
 
       return;
     }
@@ -245,47 +227,62 @@ const Chat = () => {
             </div>
           ))}
 
-          {currentStep === "RESULTS" && fakePlaylist && (
-            <div
-              style={{
-                marginTop: 16,
-                border: "1px solid #fff",
-                borderRadius: 16,
-                padding: 16,
-                color: "#fff",
-              }}
-            >
-              <div style={{ fontWeight: 700, fontSize: 16 }}>
-                {fakePlaylist.title}
-              </div>
-              <div style={{ opacity: 0.75, fontSize: 12, marginTop: 4 }}>
-                {fakePlaylist.subtitle}
+          {currentStep === "RESULTS" && playlist && (
+            <div style={{ marginTop: 16 }}>
+              <div style={{ fontSize: 18, fontWeight: 600 }}>
+                {playlist.playlistTitle}
               </div>
 
-              <div style={{ marginTop: 12 }}>
-                {fakePlaylist.tracks.map((t, idx) => (
-                  <div
-                    key={t.title}
+              <div style={{ opacity: 0.7, fontSize: 13, marginBottom: 16 }}>
+                {playlist.playlistSubtitle}
+              </div>
+
+              <table
+                style={{
+                  width: "100%",
+                  borderCollapse: "collapse",
+                  color: "#fff",
+                }}
+              >
+                <thead>
+                  <tr
                     style={{
-                      padding: "10px 0",
-                      borderBottom:
-                        idx < fakePlaylist.tracks.length - 1
-                          ? "1px solid rgba(255,255,255,0.08)"
-                          : "none",
+                      textAlign: "left",
+                      borderBottom: "1px solid rgba(255,255,255,0.1)",
                     }}
                   >
-                    <div style={{ fontWeight: 600 }}>
-                      {idx + 1}. {t.title}
-                    </div>
-                    <div style={{ fontSize: 12, opacity: 0.8 }}>{t.artist}</div>
-                    <div style={{ fontSize: 12, opacity: 0.7, marginTop: 4 }}>
-                      {t.reason}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    <th style={{ padding: "8px 0" }}>#</th>
+                    <th>Title</th>
+                    <th>Artist</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {playlist.tracks.map((track, i) => (
+                    <tr
+                      key={i}
+                      style={{
+                        borderBottom: "1px solid rgba(255,255,255,0.06)",
+                      }}
+                    >
+                      <td style={{ padding: "10px 0" }}>{i + 1}</td>
+                      <td>
+                        <a
+                          href={`https://open.spotify.com/search/${encodeURIComponent(track.spotifyQuery)}`}
+                          rel="noopener noreferrer"
+                          style={{ textDecoration: "underline" }}
+                          target="_blank"
+                        >
+                          {track.title}
+                        </a>
+                      </td>
+                      <td>{track.artist}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
+
           <div ref={bottomRef} />
         </div>
       </ScrollArea>

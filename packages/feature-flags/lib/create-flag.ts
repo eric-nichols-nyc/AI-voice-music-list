@@ -1,13 +1,17 @@
 import { analytics } from "@repo/analytics/server";
-import { auth } from "@repo/auth/server";
 import { flag } from "flags/next";
 
-export const createFlag = (key: string) =>
+type CreateFlagOptions = {
+  /** Optional: resolve user id for user-specific flags. If not provided, flags fall back to defaultValue. */
+  getUserId?: () => Promise<string | null>;
+};
+
+export const createFlag = (key: string, options: CreateFlagOptions = {}) =>
   flag({
     key,
     defaultValue: false,
     async decide() {
-      const { userId } = await auth();
+      const userId = options.getUserId ? await options.getUserId() : null;
 
       if (!userId) {
         return this.defaultValue as boolean;
