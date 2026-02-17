@@ -10,6 +10,7 @@ import { ScrollArea } from "@repo/design-system/components/ui/scroll-area";
 import { cn } from "@repo/design-system/lib/utils";
 import { Send, User } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { type NormalizedAnswers, normalizeAll } from "@/lib/normalize";
 import { AssistantIcon } from "./assistant-icon";
 
 type Step = "INTRO" | "MOOD" | "ANXIETY" | "ENERGY" | "RESULTS";
@@ -82,6 +83,9 @@ const Chat = () => {
   const [input, setInput] = useState("");
   const [answersRaw, setAnswersRaw] = useState<AnswersRaw>({});
   const bottomRef = useRef<HTMLDivElement>(null);
+  const [normalized, setNormalized] = useState<NormalizedAnswers | null>(null);
+
+  console.log("normalized = ", normalized);
 
   useEffect(() => {
     if (messages) {
@@ -170,7 +174,19 @@ const Chat = () => {
     }
 
     if (currentStep === "ENERGY") {
-      setAnswersRaw((a) => ({ ...a, energy: text }));
+      const nextAnswers = { ...answersRaw, energy: text };
+
+      setAnswersRaw(nextAnswers);
+
+      // normalize now that we have all 3
+      try {
+        const n = normalizeAll(nextAnswers);
+        setNormalized(n);
+      } catch (e) {
+        // keep it simple: you can set an error state if you want
+        console.error(e);
+      }
+
       const next = getNextStep(currentStep);
       setCurrentStep(next);
 
