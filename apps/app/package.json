@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.29",
     "@ai-sdk/react": "^3.0.89",
+    "@google/genai": "^1.41.0",
     "@repo/design-system": "workspace:*",
     "ai": "^5.0.107",
     "lucide-react": "^0.556.0",

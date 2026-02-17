@@ -27,8 +27,8 @@ const THEME_GRADIENTS: Record<ThemeKey, GradientSpec> = {
   },
   neutral: {
     kind: "linear",
-    from: "#020617",
-    mid: "#0b1a3a",
+    from: "#0b1f4d",
+    mid: "#1d4ed8",
     to: "#000000",
     angle: "160deg",
   },
