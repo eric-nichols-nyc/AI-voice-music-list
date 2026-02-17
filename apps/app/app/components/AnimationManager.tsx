@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@repo/design-system/components/ui/button";
 import { useTheme } from "../context/ThemeContext";
 import {
   useVoiceBot,
@@ -8,6 +7,7 @@ import {
 } from "../context/VoiceBotContextProvider";
 import Hal from "./Hal";
 import { Loader } from "./Loader";
+import { ThemeDebugger } from "./ThemeDebugger";
 
 const STATIC_CANVAS_WIDTH = 480;
 const STATIC_CANVAS_HEIGHT = 480;
@@ -59,28 +59,7 @@ const AnimationManager = () => {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-4">
-      <div className="flex gap-2">
-        <Button
-          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "sad" ? "ring-2 ring-white/50" : ""}`}
-          onClick={() => {
-            setStatus(VoiceBotStatus.SLEEPING);
-          }}
-          size="sm"
-          variant="outline"
-        >
-          Off
-        </Button>
-        <Button
-          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === "neutral" ? "ring-2 ring-white/50" : ""}`}
-          onClick={() => {
-            setStatus(VoiceBotStatus.LISTENING);
-          }}
-          size="sm"
-          variant="outline"
-        >
-          On
-        </Button>
-      </div>
+      <ThemeDebugger />
       <div
         className="flex min-h-0 min-w-0 flex-1 cursor-pointer items-center justify-center p-4"
         onClick={handleOrbClick}
