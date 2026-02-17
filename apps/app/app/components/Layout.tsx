@@ -100,7 +100,7 @@ export default function Layout() {
         aria-label="Resize panels"
         tabIndex={0}
         onMouseDown={handleResizerMouseDown}
-        className="hidden shrink-0 cursor-col-resize items-center justify-center border-border bg-border md:flex"
+        className="hidden shrink-0 cursor-col-resize items-center justify-center border-white/10 bg-gray-900/90 md:flex"
         style={{
           width: RESIZER_WIDTH_PX,
           minWidth: RESIZER_WIDTH_PX,
