@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import type { ThemeKey } from "../context/ThemeContext";
 import { useTheme } from "../context/ThemeContext";
 
@@ -12,6 +13,7 @@ const THEME_GRADIENTS: Record<ThemeKey, { from: string; to: string }> = {
     to: "#1e3a8a", // rich navy
   },
 };
+const INITIAL_BG = { from: "#05070f", to: "#02030a" };
 
 type Props = {
   /** Override theme-based colors with explicit gradient (e.g. for testing). */
@@ -28,13 +30,22 @@ export function DynamicBackground({ from, to, transitionMs = 1200 }: Props) {
   const resolvedTo = to ?? preset.to;
 
   return (
-    <div
+    <motion.div
       aria-hidden
       className="pointer-events-none fixed inset-0 z-0"
       style={{
-        background: `linear-gradient(to bottom, ${resolvedFrom}, ${resolvedTo})`,
-        transition: `background ${transitionMs}ms ease-in-out`,
+        background:
+          "linear-gradient(to bottom, var(--bg-from), var(--bg-to))",
       }}
+      initial={{
+        "--bg-from": INITIAL_BG.from,
+        "--bg-to": INITIAL_BG.to,
+      }}
+      animate={{
+        "--bg-from": resolvedFrom,
+        "--bg-to": resolvedTo,
+      }}
+      transition={{ duration: transitionMs / 1000, ease: "easeInOut" }}
     />
   );
 }

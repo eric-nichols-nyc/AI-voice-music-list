@@ -12,6 +12,7 @@ import { Send, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { type NormalizedAnswers, normalizeAll } from "@/lib/normalize";
 import type { PlaylistResult } from "@/types/playlist-types";
+import { type ThemeKey, useTheme } from "../context/ThemeContext";
 import { AssistantIcon } from "./assistant-icon";
 
 type Step = "INTRO" | "MOOD" | "ANXIETY" | "ENERGY" | "GENERATING" | "RESULTS";
@@ -72,6 +73,7 @@ function getNextPlaceholder(step: Step) {
   }
 }
 const Chat = () => {
+  const { setTheme } = useTheme();
   const [messages, setMessages] = useState<Message[]>([
     { id: uid(), role: "assistant", content: PROMPTS.INTRO },
   ]);
@@ -101,6 +103,18 @@ const Chat = () => {
       return;
     }
     appendMsg({ id: uid(), role: "assistant", content: PROMPTS[next] });
+  }
+
+  function mapMoodToTheme(moodCategory: NormalizedAnswers["moodCategory"]) {
+    const map: Record<NormalizedAnswers["moodCategory"], ThemeKey> = {
+      positive: "happy",
+      neutral: "neutral",
+      low: "sad",
+      stressed: "sad",
+      angry: "sad",
+    };
+
+    return map[moodCategory];
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -145,6 +159,8 @@ const Chat = () => {
       try {
         n = normalizeAll(nextAnswers);
         setNormalized(n);
+        setTheme(mapMoodToTheme(n.moodCategory));
+        console.log("Hals theme is ", n.moodCategory);
       } catch (err) {
         console.error(err);
         return;
