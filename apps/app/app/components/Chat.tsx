@@ -1,5 +1,6 @@
 "use client";
 
+import { experimental_useObject } from "@ai-sdk/react";
 import {
   Avatar,
   AvatarFallback,
@@ -10,6 +11,7 @@ import { ScrollArea } from "@repo/design-system/components/ui/scroll-area";
 import { cn } from "@repo/design-system/lib/utils";
 import { Send, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { z } from "zod";
 import { type NormalizedAnswers, normalizeAll } from "@/lib/normalize";
 import type { PlaylistResult } from "@/types/playlist-types";
 import { type ThemeKey, useTheme } from "../context/ThemeContext";
@@ -24,6 +26,20 @@ type AnswersRaw = {
 };
 
 type Message = { id: string; role: "user" | "assistant"; content: string };
+
+const playlistSchema = z.object({
+  playlistTitle: z.string(),
+  playlistSubtitle: z.string(),
+  summaryText: z.string(),
+  tracks: z.array(
+    z.object({
+      title: z.string(),
+      artist: z.string(),
+      reason: z.string(),
+      spotifyQuery: z.string(),
+    })
+  ),
+});
 
 const PROMPTS: Record<Exclude<Step, "RESULTS" | "GENERATING">, string> = {
   INTRO: "Hi — I’ll recommend a short music list. Ready to begin? Type “yes”.",
@@ -83,6 +99,40 @@ const Chat = () => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [normalized, setNormalized] = useState<NormalizedAnswers | null>(null);
   const [playlist, setPlaylist] = useState<PlaylistResult | null>(null);
+  const { submit: submitRecommend } = experimental_useObject({
+    api: "/api/recommend",
+    schema: playlistSchema,
+    onFinish: ({ object, error }) => {
+      console.log("API response:", { object, error });
+      if (!object || error) {
+        console.error("Recommend error:", error);
+        appendMsg({
+          id: uid(),
+          role: "assistant",
+          content: "Something went wrong. Please try again.",
+        });
+        setCurrentStep("ENERGY");
+        return;
+      }
+
+      setPlaylist(object as PlaylistResult);
+      setCurrentStep("RESULTS");
+      appendMsg({
+        id: uid(),
+        role: "assistant",
+        content: "Done.",
+      });
+    },
+    onError: (error) => {
+      console.error(error);
+      appendMsg({
+        id: uid(),
+        role: "assistant",
+        content: "Something went wrong. Please try again.",
+      });
+      setCurrentStep("ENERGY");
+    },
+  });
 
   useEffect(() => {
     if (messages) {
@@ -167,48 +217,20 @@ const Chat = () => {
       }
 
       setCurrentStep("GENERATING");
+      setPlaylist(null);
       appendMsg({
         id: uid(),
         role: "assistant",
         content: "Generating…",
       });
-
-      fetch("/api/recommend", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ normalized: n }),
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("Recommend request failed");
-          }
-          return res.json();
-        })
-        .then((result: PlaylistResult) => {
-          setPlaylist(result);
-          setCurrentStep("RESULTS");
-          appendMsg({
-            id: uid(),
-            role: "assistant",
-            content: "Done.",
-          });
-        })
-        .catch((err) => {
-          console.error(err);
-          appendMsg({
-            id: uid(),
-            role: "assistant",
-            content: "Something went wrong. Please try again.",
-          });
-          setCurrentStep("ENERGY");
-        });
+      submitRecommend({ normalized: n });
 
       return;
     }
   };
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col text-white">
       <ScrollArea className="min-h-0 flex-1">
         <div className="flex flex-col gap-6 p-4">
           {messages.map((msg) => (
@@ -235,7 +257,7 @@ const Chat = () => {
                   "max-w-[85%] rounded-lg border border-white/10 px-3 py-2 text-sm",
                   msg.role === "user"
                     ? "bg-white/15 text-white"
-                    : "border-white/5 bg-white/5 text-gray-200"
+                    : "border-white/5 bg-white/5 text-white"
                 )}
               >
                 {msg.content}
@@ -244,7 +266,7 @@ const Chat = () => {
           ))}
 
           {currentStep === "RESULTS" && playlist && (
-            <div style={{ marginTop: 16 }}>
+            <div className="text-white" style={{ marginTop: 16 }}>
               <div style={{ fontSize: 18, fontWeight: 600 }}>
                 {playlist.playlistTitle}
               </div>
@@ -253,11 +275,24 @@ const Chat = () => {
                 {playlist.playlistSubtitle}
               </div>
 
+              {playlist.summaryText ? (
+                <div
+                  style={{
+                    opacity: 0.9,
+                    fontSize: 14,
+                    lineHeight: 1.5,
+                    marginBottom: 16,
+                  }}
+                >
+                  {playlist.summaryText}
+                </div>
+              ) : null}
+
               <table
+                className="text-white"
                 style={{
                   width: "100%",
                   borderCollapse: "collapse",
-                  color: "#fff",
                 }}
               >
                 <thead>
@@ -285,7 +320,7 @@ const Chat = () => {
                         <a
                           href={`https://open.spotify.com/search/${encodeURIComponent(track.spotifyQuery)}`}
                           rel="noopener noreferrer"
-                          style={{ textDecoration: "underline" }}
+                          className="text-white underline"
                           target="_blank"
                         >
                           {track.title}
@@ -306,7 +341,7 @@ const Chat = () => {
       <div className="sticky bottom-0 z-10 shrink-0 border-white/10 border-t bg-gray-900/80 p-3 backdrop-blur-sm">
         <form className="flex gap-2" onSubmit={handleSubmit}>
           <Input
-            className="min-w-0 flex-1 border-white/10 bg-white/5 text-white placeholder:text-gray-500"
+            className="min-w-0 flex-1 border-white/10 bg-white/5 text-white placeholder:text-white/50"
             onChange={(e) => setInput(e.target.value)}
             placeholder={getNextPlaceholder(currentStep)}
             value={input}
