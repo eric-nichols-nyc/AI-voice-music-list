@@ -21,30 +21,30 @@ const THEME_GRADIENTS: Record<ThemeKey, GradientSpec> = {
   sad: {
     kind: "linear",
     from: "#0f172a",
-    mid: "#0b1220",
-    to: "#000000",
+    mid: "#0c1224",
+    to: "#020617",
     angle: "180deg",
   },
   neutral: {
     kind: "linear",
-    from: "#0b1f4d",
-    mid: "#1d4ed8",
-    to: "#000000",
+    from: "#0c1929",
+    mid: "#1e3a5f",
+    to: "#020617",
     angle: "160deg",
   },
   happy: {
     kind: "radial",
     from: "#7dd3fc",
     mid: "#2563eb",
-    to: "#0b1f4d",
+    to: "#0c1929",
     at: "50% 35%",
   },
 };
 const INITIAL_BG = {
   kind: "linear",
-  from: "#05070f",
-  mid: "#05060d",
-  to: "#02030a",
+  from: "#0c1929",
+  mid: "#0a1628",
+  to: "#020617",
   angle: "180deg",
 } satisfies GradientSpec;
 
