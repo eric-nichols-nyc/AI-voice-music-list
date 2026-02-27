@@ -1,24 +1,27 @@
 "use client";
 
 import { Button } from "@repo/design-system/components/ui/button";
-import { useTheme, type ThemeKey } from "../context/ThemeContext";
+import {
+  type OrbThemeKey,
+  useVoiceBot,
+} from "../context/VoiceBotContextProvider";
 
-const DEV_ONLY = process.env.NODE_ENV !== "production";
+const TESTING = process.env.TESTING;
 
-const THEMES: ThemeKey[] = ["happy", "sad", "neutral"];
+const THEMES: OrbThemeKey[] = ["happy", "sad", "neutral"];
 
 export function ThemeDebugger() {
-  const { theme, setTheme } = useTheme();
+  const { orbTheme, setOrbTheme } = useVoiceBot();
 
-  if (!DEV_ONLY) return null;
+  if (!TESTING) return null;
 
   return (
     <div className="flex gap-2">
       {THEMES.map((t) => (
         <Button
-          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${theme === t ? "ring-2 ring-white/50" : ""}`}
+          className={`border-white/20 bg-white/5 text-white hover:bg-white/10 ${orbTheme === t ? "ring-2 ring-white/50" : ""}`}
           key={t}
-          onClick={() => setTheme(t)}
+          onClick={() => setOrbTheme(t)}
           size="sm"
           variant="outline"
         >

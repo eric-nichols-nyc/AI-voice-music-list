@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@repo/design-system/components/ui/button";
-import { GripVertical } from "lucide-react";
+import { GripVertical, Volume2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useVoiceBot, VoiceBotStatus } from "../context/VoiceBotContextProvider";
 import AnimationManager from "./AnimationManager";
@@ -25,12 +25,13 @@ export default function Layout() {
   const [isDragging, setIsDragging] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
-  const { setStatus } = useVoiceBot();
+  const { setStatus, setOrbTheme } = useVoiceBot();
 
   const handleStartJourney = useCallback(() => {
     setShowOverlay(false);
     setStatus(VoiceBotStatus.LISTENING);
-  }, [setStatus]);
+    setOrbTheme("neutral");
+  }, [setStatus, setOrbTheme]);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
@@ -77,20 +78,24 @@ export default function Layout() {
     >
       {showOverlay ? (
         <div
-          aria-label="Welcome"
+          aria-label="Welcome. This experience uses audio."
           className="fixed inset-0 z-20 flex flex-col items-center justify-center gap-6 bg-black/50 px-4"
           role="dialog"
         >
-          <p className="text-center font-medium text-white text-xl md:text-2xl">
+          <p className="text-center font-medium text-white text-2xl md:text-4xl">
             Discover music that matches your mood
           </p>
           <Button
-            className="bg-white text-gray-900 hover:bg-white/90"
+            className="h-12 px-10 text-lg bg-white text-gray-900 hover:bg-white/90"
             onClick={handleStartJourney}
             size="lg"
           >
             Start your journey
           </Button>
+          <p className="flex items-center justify-center gap-2 text-center text-base italic text-white/80">
+            <Volume2 className="size-4 shrink-0" aria-hidden />
+            This experience uses audio.
+          </p>
         </div>
       ) : null}
       <DynamicBackground />

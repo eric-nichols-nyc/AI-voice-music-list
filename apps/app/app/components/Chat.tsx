@@ -14,7 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { type NormalizedAnswers, normalizeAll } from "@/lib/normalize";
 import type { PlaylistResult } from "@/types/playlist-types";
-import { type ThemeKey, useTheme } from "../context/ThemeContext";
+import { useVoiceBot, type OrbThemeKey } from "../context/VoiceBotContextProvider";
 import { AssistantIcon } from "./assistant-icon";
 
 type Step = "INTRO" | "MOOD" | "ANXIETY" | "ENERGY" | "GENERATING" | "RESULTS";
@@ -89,7 +89,7 @@ function getNextPlaceholder(step: Step) {
   }
 }
 const Chat = () => {
-  const { setTheme } = useTheme();
+  const { setOrbTheme } = useVoiceBot();
   const [messages, setMessages] = useState<Message[]>([
     { id: uid(), role: "assistant", content: PROMPTS.INTRO },
   ]);
@@ -156,7 +156,7 @@ const Chat = () => {
   }
 
   function mapMoodToTheme(moodCategory: NormalizedAnswers["moodCategory"]) {
-    const map: Record<NormalizedAnswers["moodCategory"], ThemeKey> = {
+    const map: Record<NormalizedAnswers["moodCategory"], OrbThemeKey> = {
       positive: "happy",
       neutral: "neutral",
       low: "sad",
@@ -209,7 +209,7 @@ const Chat = () => {
       try {
         n = normalizeAll(nextAnswers);
         setNormalized(n);
-        setTheme(mapMoodToTheme(n.moodCategory));
+        setOrbTheme(mapMoodToTheme(n.moodCategory));
         console.log("Hals theme is ", n.moodCategory);
       } catch (err) {
         console.error(err);
